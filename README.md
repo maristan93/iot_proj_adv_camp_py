@@ -1,5 +1,5 @@
 iot_proj_adv_camp_py
-####################
+====================
 
 Before running make database migration:
 - `python3 manage.py makemigrations`
