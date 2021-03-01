@@ -1,0 +1,31 @@
+version: '3'
+services:
+  db:
+    container_name: mysql
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+    ports:
+      - '172.17.0.1:3306:3306'
+    volumes:
+      - ./db:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: app
+    ports:
+      - '8000:8000'
+    environment:
+      SQL_NAME: $MYSQL_DATABASE
+      SQL_USER: $MYSQL_USER
+      SQL_PASSWORD: $MYSQL_PASSWORD
+      SQL_HOST: $MYSQL_HOST
+      ALLOWED_HOSTS: $ALLOWED_HOSTS
+    restart: always
+    depends_on:
+      - db
